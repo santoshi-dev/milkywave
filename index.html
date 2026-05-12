@@ -264,6 +264,123 @@ rotate(45deg);
 opacity:0;
 }
 }
+  /* MUSIC PANEL */
+
+.music-panel{
+position:absolute;
+right:40px;
+top:50%;
+transform:translateY(-50%);
+width:320px;
+padding:25px;
+
+background:rgba(255,255,255,0.08);
+
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,0.1);
+
+border-radius:25px;
+
+box-shadow:
+0 0 30px rgba(0,255,255,0.2),
+0 0 60px rgba(255,0,255,0.1);
+
+z-index:20;
+
+opacity:0;
+pointer-events:none;
+
+transition:0.5s;
+}
+
+/* ACTIVE PANEL */
+
+.music-panel.active{
+opacity:1;
+pointer-events:auto;
+right:60px;
+}
+
+/* ALBUM */
+
+.album-art{
+width:120px;
+height:120px;
+margin:auto;
+border-radius:50%;
+
+background:
+radial-gradient(circle,
+#ff00ff,
+#00eaff);
+
+box-shadow:
+0 0 30px cyan,
+0 0 60px magenta;
+
+animation:spinAlbum 8s linear infinite;
+}
+
+@keyframes spinAlbum{
+from{
+transform:rotate(0deg);
+}
+to{
+transform:rotate(360deg);
+}
+}
+
+.song-title{
+font-size:24px;
+margin-top:20px;
+text-align:center;
+}
+
+.artist{
+text-align:center;
+opacity:0.7;
+margin-top:10px;
+}
+
+/* EQUALIZER */
+
+.equalizer{
+display:flex;
+justify-content:center;
+align-items:flex-end;
+gap:6px;
+height:50px;
+margin-top:25px;
+}
+
+.bar{
+width:8px;
+background:cyan;
+border-radius:10px;
+animation:bounce 1s infinite alternate;
+}
+
+.bar:nth-child(2){
+animation-delay:0.2s;
+}
+
+.bar:nth-child(3){
+animation-delay:0.4s;
+}
+
+.bar:nth-child(4){
+animation-delay:0.6s;
+}
+
+@keyframes bounce{
+from{
+height:10px;
+}
+to{
+height:45px;
+}
+}
 </style>
 </head>
 
@@ -355,7 +472,75 @@ Math.random()*5+"s";
 
 document.body.appendChild(meteor);
 }
-</script>
+  /* PLANET INTERACTION */
 
+const planets=document.querySelectorAll(".planet");
+
+const panel=document.getElementById("musicPanel");
+
+const songTitle=document.getElementById("songTitle");
+
+const artistName=document.getElementById("artistName");
+
+const songs=[
+
+{
+title:"Neon Dreams",
+artist:"English Planet"
+},
+
+{
+title:"Starlight Seoul",
+artist:"Korean Planet"
+},
+
+{
+title:"Lunar Dil",
+artist:"Hindi Planet"
+},
+
+{
+title:"Tokyo Pulse",
+artist:"Japanese Planet"
+}
+
+];
+
+planets.forEach((planet,index)=>{
+
+planet.addEventListener("click",()=>{
+
+panel.classList.add("active");
+
+songTitle.innerHTML=songs[index].title;
+
+artistName.innerHTML=songs[index].artist;
+
+});
+
+});
+</script>
+<div class="music-panel" id="musicPanel">
+
+<div class="album-art"></div>
+
+<div class="song-title" id="songTitle">
+Select Planet
+</div>
+
+<div class="artist" id="artistName">
+MilkyWave Station
+</div>
+
+<div class="equalizer">
+
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+
+</div>
+
+</div>
 </body>
 </html>
