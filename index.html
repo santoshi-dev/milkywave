@@ -381,10 +381,22 @@ to{
 height:45px;
 }
 }
+  /* THREE.JS CANVAS */
+
+#bg{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-10;
+}
 </style>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 </head>
 
 <body>
+  <canvas id="bg"></canvas>
 
 <div class="stars" id="stars"></div>
 
@@ -517,6 +529,193 @@ songTitle.innerHTML=songs[index].title;
 artistName.innerHTML=songs[index].artist;
 
 });
+
+});
+  /* =========================
+   THREE JS GALAXY
+========================= */
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+75,
+window.innerWidth/window.innerHeight,
+0.1,
+1000
+);
+
+const renderer = new THREE.WebGLRenderer({
+canvas:document.querySelector('#bg'),
+alpha:true
+});
+
+renderer.setPixelRatio(window.devicePixelRatio);
+
+renderer.setSize(
+window.innerWidth,
+window.innerHeight
+);
+
+camera.position.setZ(30);
+
+/* LIGHTS */
+
+const pointLight =
+new THREE.PointLight(0xffffff,2);
+
+pointLight.position.set(20,20,20);
+
+scene.add(pointLight);
+
+const ambientLight =
+new THREE.AmbientLight(0x404040,3);
+
+scene.add(ambientLight);
+
+/* STAR FIELD */
+
+function addStar(){
+
+const geometry =
+new THREE.SphereGeometry(0.15,24,24);
+
+const material =
+new THREE.MeshStandardMaterial({
+color:0xffffff
+});
+
+const star =
+new THREE.Mesh(geometry,material);
+
+const [x,y,z]=Array(3)
+.fill()
+.map(()=>THREE.MathUtils.randFloatSpread(200));
+
+star.position.set(x,y,z);
+
+scene.add(star);
+}
+
+Array(600)
+.fill()
+.forEach(addStar);
+
+/* MAIN GALAXY CORE */
+
+const coreGeometry =
+new THREE.SphereGeometry(6,64,64);
+
+const coreMaterial =
+new THREE.MeshStandardMaterial({
+color:0xaa00ff,
+emissive:0x5500ff,
+emissiveIntensity:2
+});
+
+const core =
+new THREE.Mesh(coreGeometry,coreMaterial);
+
+scene.add(core);
+
+/* PLANETS */
+
+const planetGeometry =
+new THREE.SphereGeometry(1.8,64,64);
+
+const bluePlanet =
+new THREE.Mesh(
+planetGeometry,
+new THREE.MeshStandardMaterial({
+color:0x00aaff,
+emissive:0x0066ff,
+emissiveIntensity:1
+})
+);
+
+scene.add(bluePlanet);
+
+const pinkPlanet =
+new THREE.Mesh(
+planetGeometry,
+new THREE.MeshStandardMaterial({
+color:0xff00aa,
+emissive:0xff0088,
+emissiveIntensity:1
+})
+);
+
+scene.add(pinkPlanet);
+
+const greenPlanet =
+new THREE.Mesh(
+planetGeometry,
+new THREE.MeshStandardMaterial({
+color:0x00ff99,
+emissive:0x00ff66,
+emissiveIntensity:1
+})
+);
+
+scene.add(greenPlanet);
+
+/* ANIMATION */
+
+function animate(){
+
+requestAnimationFrame(animate);
+
+/* CORE ROTATION */
+
+core.rotation.y += 0.002;
+
+/* ORBIT */
+
+const time=Date.now()*0.0005;
+
+bluePlanet.position.x =
+Math.cos(time)*14;
+
+bluePlanet.position.z =
+Math.sin(time)*14;
+
+pinkPlanet.position.x =
+Math.cos(time+2)*18;
+
+pinkPlanet.position.z =
+Math.sin(time+2)*18;
+
+greenPlanet.position.x =
+Math.cos(time+4)*22;
+
+greenPlanet.position.z =
+Math.sin(time+4)*22;
+
+/* PLANET ROTATION */
+
+bluePlanet.rotation.y += 0.01;
+
+pinkPlanet.rotation.y += 0.01;
+
+greenPlanet.rotation.y += 0.01;
+
+renderer.render(scene,camera);
+}
+
+animate();
+
+/* RESPONSIVE */
+
+window.addEventListener('resize',()=>{
+
+camera.aspect =
+window.innerWidth/window.innerHeight;
+
+camera.updateProjectionMatrix();
+
+renderer.setSize(
+window.innerWidth,
+window.innerHeight
+);
 
 });
 </script>
