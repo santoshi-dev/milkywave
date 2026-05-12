@@ -237,7 +237,33 @@ to{
 transform:translateY(-100vh);
 }
 }
+/* METEORS */
 
+.meteor{
+position:absolute;
+width:2px;
+height:120px;
+background:linear-gradient(white,transparent);
+opacity:0.8;
+transform:rotate(45deg);
+animation:meteorFall linear infinite;
+}
+
+@keyframes meteorFall{
+from{
+transform:
+translate(0,0)
+rotate(45deg);
+opacity:1;
+}
+
+to{
+transform:
+translate(-1000px,1000px)
+rotate(45deg);
+opacity:0;
+}
+}
 </style>
 </head>
 
@@ -310,7 +336,25 @@ particle.style.opacity=Math.random();
 
 document.body.appendChild(particle);
 }
+/* METEORS */
 
+for(let i=0;i<8;i++){
+
+let meteor=document.createElement("div");
+
+meteor.classList.add("meteor");
+
+meteor.style.top=Math.random()*50+"%";
+meteor.style.left=Math.random()*100+"%";
+
+meteor.style.animationDuration=
+(2+Math.random()*4)+"s";
+
+meteor.style.animationDelay=
+Math.random()*5+"s";
+
+document.body.appendChild(meteor);
+}
 </script>
 
 </body>
