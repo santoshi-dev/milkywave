@@ -1,1 +1,317 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MilkyWave 🌌</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+overflow:hidden;
+background:
+radial-gradient(circle at center,
+#13001f 0%,
+#090010 40%,
+black 100%);
+height:100vh;
+font-family:'Orbitron',sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
+color:white;
+}
+
+/* STARS */
+
+.stars{
+position:absolute;
+width:100%;
+height:100%;
+overflow:hidden;
+}
+
+.star{
+position:absolute;
+background:white;
+border-radius:50%;
+opacity:0.8;
+animation:twinkle infinite alternate;
+}
+
+@keyframes twinkle{
+from{
+opacity:0.2;
+transform:scale(0.8);
+}
+to{
+opacity:1;
+transform:scale(1.3);
+}
+}
+
+/* AURORA */
+
+.aurora{
+position:absolute;
+width:900px;
+height:900px;
+background:
+radial-gradient(circle,
+rgba(0,255,255,0.15),
+rgba(255,0,255,0.08),
+transparent 70%);
+filter:blur(80px);
+animation:auroraMove 12s ease-in-out infinite alternate;
+}
+
+@keyframes auroraMove{
+0%{
+transform:translate(-200px,-100px);
+}
+100%{
+transform:translate(200px,100px);
+}
+}
+
+/* CENTER SUN */
+
+.music-core{
+position:absolute;
+width:180px;
+height:180px;
+border-radius:50%;
+background:
+radial-gradient(circle,
+#ff00ff,
+#6a00ff,
+#00eaff);
+box-shadow:
+0 0 40px #ff00ff,
+0 0 80px #00eaff,
+0 0 120px #6a00ff;
+animation:pulse 4s infinite alternate;
+}
+
+@keyframes pulse{
+from{
+transform:scale(1);
+}
+to{
+transform:scale(1.08);
+}
+}
+
+/* ORBIT */
+
+.orbit{
+position:absolute;
+width:500px;
+height:500px;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:50%;
+animation:rotateOrbit 25s linear infinite;
+}
+
+@keyframes rotateOrbit{
+from{
+transform:rotate(0deg);
+}
+to{
+transform:rotate(360deg);
+}
+}
+
+/* PLANETS */
+
+.planet{
+position:absolute;
+border-radius:50%;
+cursor:pointer;
+transition:0.4s;
+}
+
+.planet:hover{
+transform:scale(1.2);
+filter:brightness(1.5);
+}
+
+/* Planet Positions */
+
+.planet1{
+width:70px;
+height:70px;
+background:
+radial-gradient(circle,
+#00eaff,
+#0044ff);
+top:-30px;
+left:215px;
+box-shadow:0 0 30px cyan;
+}
+
+.planet2{
+width:90px;
+height:90px;
+background:
+radial-gradient(circle,
+#ff00ff,
+#ff006a);
+bottom:-40px;
+left:200px;
+box-shadow:0 0 40px magenta;
+}
+
+.planet3{
+width:60px;
+height:60px;
+background:
+radial-gradient(circle,
+#00ff95,
+#00aa55);
+top:220px;
+left:-30px;
+box-shadow:0 0 30px #00ff95;
+}
+
+.planet4{
+width:80px;
+height:80px;
+background:
+radial-gradient(circle,
+#ffaa00,
+#ff5500);
+top:200px;
+right:-40px;
+box-shadow:0 0 30px orange;
+}
+
+/* UI TEXT */
+
+.title{
+position:absolute;
+top:50px;
+font-size:48px;
+letter-spacing:4px;
+text-shadow:
+0 0 20px cyan,
+0 0 40px magenta;
+}
+
+.subtitle{
+position:absolute;
+bottom:60px;
+font-size:18px;
+opacity:0.7;
+letter-spacing:2px;
+}
+
+/* FLOATING PARTICLES */
+
+.particle{
+position:absolute;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+opacity:0.5;
+animation:float linear infinite;
+}
+
+@keyframes float{
+from{
+transform:translateY(100vh);
+}
+to{
+transform:translateY(-100vh);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="aurora"></div>
+
+<div class="title">MILKYWAVE</div>
+
+<div class="music-core"></div>
+
+<div class="orbit">
+
+<div class="planet planet1" title="English"></div>
+
+<div class="planet planet2" title="Korean"></div>
+
+<div class="planet planet3" title="Hindi"></div>
+
+<div class="planet planet4" title="Japanese"></div>
+
+</div>
+
+<div class="subtitle">
+Travel The Galaxy Through Music 🎧
+</div>
+
+<script>
+
+/* CREATE STARS */
+
+const stars = document.getElementById("stars");
+
+for(let i=0;i<250;i++){
+
+let star=document.createElement("div");
+
+star.classList.add("star");
+
+let size=Math.random()*3;
+
+star.style.width=size+"px";
+star.style.height=size+"px";
+
+star.style.top=Math.random()*100+"%";
+star.style.left=Math.random()*100+"%";
+
+star.style.animationDuration=
+(2+Math.random()*5)+"s";
+
+stars.appendChild(star);
+}
+
+/* FLOATING PARTICLES */
+
+for(let i=0;i<60;i++){
+
+let particle=document.createElement("div");
+
+particle.classList.add("particle");
+
+particle.style.left=Math.random()*100+"vw";
+
+particle.style.animationDuration=
+(5+Math.random()*10)+"s";
+
+particle.style.opacity=Math.random();
+
+document.body.appendChild(particle);
+}
+
+</script>
+
+</body>
+</html>
