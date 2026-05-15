@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>MilkyWave 🌌</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
 <style>
 
@@ -19,282 +20,79 @@ box-sizing:border-box;
 
 body{
 overflow:hidden;
-background:
-radial-gradient(circle at center,
-#13001f 0%,
-#090010 40%,
-black 100%);
-height:100vh;
 font-family:'Orbitron',sans-serif;
-display:flex;
-justify-content:center;
-align-items:center;
-position:relative;
+background:black;
 color:white;
+height:100vh;
 }
 
-/* STARS */
-
-.stars{
-position:absolute;
+#bg{
+position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
-overflow:hidden;
+z-index:-10;
 }
 
-.star{
+/* =========================
+   TITLE
+========================= */
+
+.hero{
 position:absolute;
-background:white;
-border-radius:50%;
-opacity:0.8;
-animation:twinkle infinite alternate;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+z-index:10;
+pointer-events:none;
 }
 
-@keyframes twinkle{
-from{
-opacity:0.2;
-transform:scale(0.8);
-}
-to{
-opacity:1;
-transform:scale(1.3);
-}
-}
-
-/* AURORA */
-
-.aurora{
-position:absolute;
-width:900px;
-height:900px;
-background:
-radial-gradient(circle,
-rgba(0,255,255,0.15),
-rgba(255,0,255,0.08),
-transparent 70%);
-filter:blur(80px);
-animation:auroraMove 12s ease-in-out infinite alternate;
-}
-
-@keyframes auroraMove{
-0%{
-transform:translate(-200px,-100px);
-}
-100%{
-transform:translate(200px,100px);
-}
-}
-
-/* CENTER SUN */
-
-.music-core{
-position:absolute;
-width:180px;
-height:180px;
-border-radius:50%;
-background:
-radial-gradient(circle,
-#ff00ff,
-#6a00ff,
-#00eaff);
-box-shadow:
-0 0 40px #ff00ff,
-0 0 80px #00eaff,
-0 0 120px #6a00ff;
-animation:pulse 4s infinite alternate;
-}
-
-@keyframes pulse{
-from{
-transform:scale(1);
-}
-to{
-transform:scale(1.08);
-}
-}
-
-/* ORBIT */
-
-.orbit{
-position:absolute;
-width:500px;
-height:500px;
-border:1px solid rgba(255,255,255,0.08);
-border-radius:50%;
-animation:rotateOrbit 25s linear infinite;
-}
-
-@keyframes rotateOrbit{
-from{
-transform:rotate(0deg);
-}
-to{
-transform:rotate(360deg);
-}
-}
-
-/* PLANETS */
-
-.planet{
-position:absolute;
-border-radius:50%;
-cursor:pointer;
-transition:0.4s;
-}
-
-.planet:hover{
-transform:scale(1.2);
-filter:brightness(1.5);
-}
-
-/* Planet Positions */
-
-.planet1{
-width:70px;
-height:70px;
-background:
-radial-gradient(circle,
+.hero h1{
+font-size:72px;
+letter-spacing:8px;
+font-weight:900;
+background:linear-gradient(90deg,
 #00eaff,
-#0044ff);
-top:-30px;
-left:215px;
-box-shadow:0 0 30px cyan;
-}
-
-.planet2{
-width:90px;
-height:90px;
-background:
-radial-gradient(circle,
 #ff00ff,
-#ff006a);
-bottom:-40px;
-left:200px;
-box-shadow:0 0 40px magenta;
-}
-
-.planet3{
-width:60px;
-height:60px;
-background:
-radial-gradient(circle,
-#00ff95,
-#00aa55);
-top:220px;
-left:-30px;
-box-shadow:0 0 30px #00ff95;
-}
-
-.planet4{
-width:80px;
-height:80px;
-background:
-radial-gradient(circle,
-#ffaa00,
-#ff5500);
-top:200px;
-right:-40px;
-box-shadow:0 0 30px orange;
-}
-
-/* UI TEXT */
-
-.title{
-position:absolute;
-top:50px;
-font-size:48px;
-letter-spacing:4px;
+#ffffff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 text-shadow:
-0 0 20px cyan,
-0 0 40px magenta;
+0 0 30px rgba(0,255,255,0.3);
 }
 
-.subtitle{
-position:absolute;
-bottom:60px;
-font-size:18px;
-opacity:0.7;
-letter-spacing:2px;
+.hero p{
+margin-top:18px;
+font-size:14px;
+letter-spacing:3px;
+opacity:0.75;
 }
 
-/* FLOATING PARTICLES */
-
-.particle{
-position:absolute;
-width:3px;
-height:3px;
-background:white;
-border-radius:50%;
-opacity:0.5;
-animation:float linear infinite;
-}
-
-@keyframes float{
-from{
-transform:translateY(100vh);
-}
-to{
-transform:translateY(-100vh);
-}
-}
-/* METEORS */
-
-.meteor{
-position:absolute;
-width:2px;
-height:120px;
-background:linear-gradient(white,transparent);
-opacity:0.8;
-transform:rotate(45deg);
-animation:meteorFall linear infinite;
-}
-
-@keyframes meteorFall{
-from{
-transform:
-translate(0,0)
-rotate(45deg);
-opacity:1;
-}
-
-to{
-transform:
-translate(-1000px,1000px)
-rotate(45deg);
-opacity:0;
-}
-}
-  /* MUSIC PANEL */
+/* =========================
+   MUSIC PANEL
+========================= */
 
 .music-panel{
-position:absolute;
+position:fixed;
 right:40px;
 top:50%;
 transform:translateY(-50%);
 width:320px;
 padding:25px;
-
-background:rgba(255,255,255,0.08);
-
+background:rgba(10,10,30,0.55);
 backdrop-filter:blur(20px);
-
 border:1px solid rgba(255,255,255,0.1);
-
-border-radius:25px;
-
+border-radius:30px;
 box-shadow:
-0 0 30px rgba(0,255,255,0.2),
-0 0 60px rgba(255,0,255,0.1);
-
-z-index:20;
-
+0 0 40px rgba(0,255,255,0.15),
+0 0 80px rgba(255,0,255,0.08);
 opacity:0;
 pointer-events:none;
-
 transition:0.5s;
+z-index:20;
 }
-
-/* ACTIVE PANEL */
 
 .music-panel.active{
 opacity:1;
@@ -302,54 +100,54 @@ pointer-events:auto;
 right:60px;
 }
 
-/* ALBUM */
-
 .album-art{
 width:120px;
 height:120px;
-margin:auto;
 border-radius:50%;
-
+margin:auto;
 background:
 radial-gradient(circle,
 #ff00ff,
 #00eaff);
-
 box-shadow:
-0 0 30px cyan,
-0 0 60px magenta;
-
-animation:spinAlbum 8s linear infinite;
+0 0 40px #00eaff,
+0 0 80px #ff00ff;
+animation:spin 8s linear infinite;
 }
 
-@keyframes spinAlbum{
-from{
-transform:rotate(0deg);
-}
-to{
-transform:rotate(360deg);
-}
+@keyframes spin{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
 }
 
 .song-title{
-font-size:24px;
-margin-top:20px;
+margin-top:22px;
+font-size:26px;
 text-align:center;
+font-weight:bold;
 }
 
-.artist{
+.artist-name{
+margin-top:10px;
 text-align:center;
 opacity:0.7;
-margin-top:10px;
+font-size:14px;
+letter-spacing:2px;
 }
 
-/* EQUALIZER */
+.description{
+margin-top:15px;
+text-align:center;
+font-size:13px;
+line-height:1.7;
+opacity:0.8;
+}
 
 .equalizer{
 display:flex;
 justify-content:center;
 align-items:flex-end;
-gap:6px;
+gap:8px;
 height:50px;
 margin-top:25px;
 }
@@ -361,249 +159,239 @@ border-radius:10px;
 animation:bounce 1s infinite alternate;
 }
 
-.bar:nth-child(2){
-animation-delay:0.2s;
-}
-
-.bar:nth-child(3){
-animation-delay:0.4s;
-}
-
-.bar:nth-child(4){
-animation-delay:0.6s;
-}
+.bar:nth-child(2){animation-delay:0.2s;}
+.bar:nth-child(3){animation-delay:0.4s;}
+.bar:nth-child(4){animation-delay:0.6s;}
 
 @keyframes bounce{
-from{
-height:10px;
+from{height:10px;}
+to{height:45px;}
 }
-to{
-height:45px;
-}
-}
-  /* THREE.JS CANVAS */
 
-#bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-10;
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:42px;
+letter-spacing:4px;
 }
+
+.hero p{
+font-size:11px;
+}
+
+.music-panel{
+width:90%;
+right:5%;
+top:auto;
+bottom:20px;
+transform:none;
+}
+
+.music-panel.active{
+right:5%;
+}
+
+}
+
 </style>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 </head>
 
 <body>
-  <canvas id="bg"></canvas>
 
-<div class="stars" id="stars"></div>
+<canvas id="bg"></canvas>
 
-<div class="aurora"></div>
-
-<div class="title">MILKYWAVE</div>
-
-<div class="music-core"></div>
-
-<div class="orbit">
-
-<div class="planet planet1" title="English"></div>
-
-<div class="planet planet2" title="Korean"></div>
-
-<div class="planet planet3" title="Hindi"></div>
-
-<div class="planet planet4" title="Japanese"></div>
-
+<div class="hero">
+<h1>MILKYWAVE</h1>
+<p>TRAVEL THE GALAXY THROUGH MUSIC 🎧</p>
 </div>
 
-<div class="subtitle">
-Travel The Galaxy Through Music 🎧
+<div class="music-panel" id="musicPanel">
+
+<div class="album-art"></div>
+
+<div class="song-title" id="songTitle">
+Select A Planet
+</div>
+
+<div class="artist-name" id="artistName">
+Music Universe
+</div>
+
+<div class="description" id="description">
+Enter different musical galaxies floating across the cosmic void.
+</div>
+
+<div class="equalizer">
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+</div>
+
 </div>
 
 <script>
 
-/* CREATE STARS */
-
-const stars = document.getElementById("stars");
-
-for(let i=0;i<250;i++){
-
-let star=document.createElement("div");
-
-star.classList.add("star");
-
-let size=Math.random()*3;
-
-star.style.width=size+"px";
-star.style.height=size+"px";
-
-star.style.top=Math.random()*100+"%";
-star.style.left=Math.random()*100+"%";
-
-star.style.animationDuration=
-(2+Math.random()*5)+"s";
-
-stars.appendChild(star);
-}
-
-/* FLOATING PARTICLES */
-
-for(let i=0;i<60;i++){
-
-let particle=document.createElement("div");
-
-particle.classList.add("particle");
-
-particle.style.left=Math.random()*100+"vw";
-
-particle.style.animationDuration=
-(5+Math.random()*10)+"s";
-
-particle.style.opacity=Math.random();
-
-document.body.appendChild(particle);
-}
-/* METEORS */
-
-for(let i=0;i<8;i++){
-
-let meteor=document.createElement("div");
-
-meteor.classList.add("meteor");
-
-meteor.style.top=Math.random()*50+"%";
-meteor.style.left=Math.random()*100+"%";
-
-meteor.style.animationDuration=
-(2+Math.random()*4)+"s";
-
-meteor.style.animationDelay=
-Math.random()*5+"s";
-
-document.body.appendChild(meteor);
-}
-  /* PLANET INTERACTION */
-
-const planets=document.querySelectorAll(".planet");
-
-const panel=document.getElementById("musicPanel");
-
-const songTitle=document.getElementById("songTitle");
-
-const artistName=document.getElementById("artistName");
-
-const songs=[
-
-{
-title:"Neon Dreams",
-artist:"English Planet"
-},
-
-{
-title:"Starlight Seoul",
-artist:"Korean Planet"
-},
-
-{
-title:"Lunar Dil",
-artist:"Hindi Planet"
-},
-
-{
-title:"Tokyo Pulse",
-artist:"Japanese Planet"
-}
-
-];
-
-planets.forEach((planet,index)=>{
-
-planet.addEventListener("click",()=>{
-
-panel.classList.add("active");
-
-songTitle.innerHTML=songs[index].title;
-
-artistName.innerHTML=songs[index].artist;
-
-});
-
-});
-  /* =========================
-   THREE JS GALAXY
+/* =========================
+   SCENE
 ========================= */
 
 const scene = new THREE.Scene();
+
+scene.fog = new THREE.FogExp2(
+0x070816,
+0.0018
+);
+
+/* =========================
+   CAMERA
+========================= */
 
 const camera = new THREE.PerspectiveCamera(
 75,
 window.innerWidth/window.innerHeight,
 0.1,
-1000
+3000
 );
+
+camera.position.set(0,30,120);
+
+/* =========================
+   RENDERER
+========================= */
 
 const renderer = new THREE.WebGLRenderer({
 canvas:document.querySelector('#bg'),
+antialias:true,
 alpha:true
 });
-
-renderer.setPixelRatio(window.devicePixelRatio);
 
 renderer.setSize(
 window.innerWidth,
 window.innerHeight
 );
 
-camera.position.setZ(30);
+renderer.setPixelRatio(window.devicePixelRatio);
 
-/* LIGHTS */
-
-const pointLight =
-new THREE.PointLight(0xffffff,2);
-
-pointLight.position.set(20,20,20);
-
-scene.add(pointLight);
+/* =========================
+   LIGHTS
+========================= */
 
 const ambientLight =
-new THREE.AmbientLight(0x404040,3);
+new THREE.AmbientLight(0xffffff,0.35);
 
 scene.add(ambientLight);
 
-/* STAR FIELD */
+const pinkLight =
+new THREE.PointLight(0xff00ff,2,800);
 
-function addStar(){
+pinkLight.position.set(120,80,100);
 
-const geometry =
-new THREE.SphereGeometry(0.15,24,24);
+scene.add(pinkLight);
 
-const material =
-new THREE.MeshStandardMaterial({
-color:0xffffff
-});
+const cyanLight =
+new THREE.PointLight(0x00eaff,2,800);
 
-const star =
-new THREE.Mesh(geometry,material);
+cyanLight.position.set(-120,-80,50);
 
-const [x,y,z]=Array(3)
-.fill()
-.map(()=>THREE.MathUtils.randFloatSpread(200));
+scene.add(cyanLight);
 
-star.position.set(x,y,z);
+/* =========================
+   STARFIELD
+========================= */
 
-scene.add(star);
+const starsGeometry =
+new THREE.BufferGeometry();
+
+const starCount = 4000;
+
+const starPositions =
+new Float32Array(starCount*3);
+
+for(let i=0;i<starCount*3;i++){
+
+starPositions[i] =
+(Math.random()-0.5)*3000;
+
 }
 
-Array(600)
-.fill()
-.forEach(addStar);
+starsGeometry.setAttribute(
+'position',
+new THREE.BufferAttribute(
+starPositions,
+3
+)
+);
 
-/* MAIN GALAXY CORE */
+const starsMaterial =
+new THREE.PointsMaterial({
+color:0xffffff,
+size:1,
+transparent:true,
+opacity:0.8
+});
+
+const stars =
+new THREE.Points(
+starsGeometry,
+starsMaterial
+);
+
+scene.add(stars);
+
+/* =========================
+   COSMIC DUST
+========================= */
+
+const dustGeometry =
+new THREE.BufferGeometry();
+
+const dustCount = 5000;
+
+const dustPositions =
+new Float32Array(dustCount*3);
+
+for(let i=0;i<dustCount*3;i++){
+
+ dustPositions[i] =
+ (Math.random()-0.5)*3500;
+
+}
+
+ dustGeometry.setAttribute(
+ 'position',
+ new THREE.BufferAttribute(
+ dustPositions,
+ 3
+ )
+);
+
+const dustMaterial =
+new THREE.PointsMaterial({
+color:0x8888ff,
+size:0.7,
+transparent:true,
+opacity:0.12
+});
+
+const dust =
+new THREE.Points(
+dustGeometry,
+dustMaterial
+);
+
+scene.add(dust);
+
+/* =========================
+   GALAXY CORE
+========================= */
 
 const coreGeometry =
-new THREE.SphereGeometry(6,64,64);
+new THREE.SphereGeometry(12,64,64);
 
 const coreMaterial =
 new THREE.MeshStandardMaterial({
@@ -617,93 +405,308 @@ new THREE.Mesh(coreGeometry,coreMaterial);
 
 scene.add(core);
 
-/* PLANETS */
+/* =========================
+   PLANETS
+========================= */
 
-const planetGeometry =
-new THREE.SphereGeometry(1.8,64,64);
+const planets=[];
 
-const bluePlanet =
-new THREE.Mesh(
-planetGeometry,
-new THREE.MeshStandardMaterial({
+const planetData=[
+{
+name:'Neon Earth',
+artist:'English Pop',
+description:'Neon cities floating through cosmic soundwaves.',
+color:0x00ffcc,
+distance:35,
+size:4,
+speed:0.6
+},
+{
+name:'Sakura Moon',
+artist:'Japanese Dreams',
+description:'Anime skies and celestial memories drifting forever.',
+color:0xff66cc,
+distance:50,
+size:3.5,
+speed:0.4
+},
+{
+name:'Golden Venus',
+artist:'Bollywood Universe',
+description:'Golden emotions wrapped in interstellar warmth.',
+color:0xffcc33,
+distance:65,
+size:5,
+speed:0.3
+},
+{
+name:'Cyber Saturn',
+artist:'EDM Galaxy',
+description:'Electric rave energy inside cosmic rings.',
 color:0x00aaff,
-emissive:0x0066ff,
-emissiveIntensity:1
-})
+distance:80,
+size:4.5,
+speed:0.2
+}
+];
+
+planetData.forEach((data,index)=>{
+
+const geometry =
+new THREE.SphereGeometry(
+data.size,
+64,
+64
 );
 
-scene.add(bluePlanet);
-
-const pinkPlanet =
-new THREE.Mesh(
-planetGeometry,
+const material =
 new THREE.MeshStandardMaterial({
-color:0xff00aa,
-emissive:0xff0088,
-emissiveIntensity:1
-})
-);
+color:data.color,
+emissive:data.color,
+emissiveIntensity:0.5,
+roughness:0.4,
+metalness:0.3
+});
 
-scene.add(pinkPlanet);
-
-const greenPlanet =
+const planet =
 new THREE.Mesh(
-planetGeometry,
-new THREE.MeshStandardMaterial({
-color:0x00ff99,
-emissive:0x00ff66,
-emissiveIntensity:1
-})
+geometry,
+material
 );
 
-scene.add(greenPlanet);
+planet.userData = data;
 
-/* ANIMATION */
+scene.add(planet);
+
+/* GLOW */
+
+const glowGeometry =
+new THREE.SphereGeometry(
+data.size*1.3,
+64,
+64
+);
+
+const glowMaterial =
+new THREE.MeshBasicMaterial({
+color:data.color,
+transparent:true,
+opacity:0.15,
+side:THREE.BackSide
+});
+
+const glow =
+new THREE.Mesh(
+glowGeometry,
+glowMaterial
+);
+
+planet.add(glow);
+
+/* SATURN RING */
+
+if(index===3){
+
+const ringGeometry =
+new THREE.TorusGeometry(
+8,
+1,
+16,
+100
+);
+
+const ringMaterial =
+new THREE.MeshBasicMaterial({
+color:0x00eaff,
+transparent:true,
+opacity:0.4
+});
+
+const ring =
+new THREE.Mesh(
+ringGeometry,
+ringMaterial
+);
+
+ring.rotation.x = Math.PI/2.5;
+
+planet.add(ring);
+
+}
+
+planets.push(planet);
+
+});
+
+/* =========================
+   METEORS
+========================= */
+
+function createMeteor(){
+
+const meteorGeometry =
+new THREE.SphereGeometry(0.4,8,8);
+
+const meteorMaterial =
+new THREE.MeshBasicMaterial({
+color:0xffffff
+});
+
+const meteor =
+new THREE.Mesh(
+meteorGeometry,
+meteorMaterial
+);
+
+meteor.position.set(
+300,
+Math.random()*200,
+-200
+);
+
+scene.add(meteor);
+
+const speed = 8 + Math.random()*8;
+
+function animateMeteor(){
+
+meteor.position.x -= speed;
+meteor.position.y -= speed;
+
+if(meteor.position.x < -400){
+scene.remove(meteor);
+return;
+}
+
+requestAnimationFrame(animateMeteor);
+}
+
+animateMeteor();
+}
+
+setInterval(createMeteor,2500);
+
+/* =========================
+   INTERACTION
+========================= */
+
+const raycaster =
+new THREE.Raycaster();
+
+const mouse =
+new THREE.Vector2();
+
+window.addEventListener('click',(event)=>{
+
+mouse.x =
+(event.clientX/window.innerWidth)*2-1;
+
+mouse.y =
+-(event.clientY/window.innerHeight)*2+1;
+
+raycaster.setFromCamera(mouse,camera);
+
+const intersects =
+raycaster.intersectObjects(planets);
+
+if(intersects.length>0){
+
+const data =
+intersects[0].object.userData;
+
+const panel =
+document.getElementById('musicPanel');
+
+panel.classList.add('active');
+
+document.getElementById('songTitle').innerHTML = data.name;
+
+document.getElementById('artistName').innerHTML = data.artist;
+
+document.getElementById('description').innerHTML = data.description;
+
+}
+
+});
+
+/* =========================
+   CAMERA DRIFT
+========================= */
+
+let mouseX=0;
+let mouseY=0;
+
+window.addEventListener('mousemove',(e)=>{
+
+mouseX =
+(e.clientX/window.innerWidth -0.5)*10;
+
+mouseY =
+(e.clientY/window.innerHeight -0.5)*10;
+
+});
+
+/* =========================
+   ANIMATION
+========================= */
 
 function animate(){
 
 requestAnimationFrame(animate);
 
-/* CORE ROTATION */
+const time = Date.now()*0.0002;
+
+/* CORE */
 
 core.rotation.y += 0.002;
 
-/* ORBIT */
+/* PLANETS */
 
-const time=Date.now()*0.0005;
+planets.forEach((planet,index)=>{
 
-bluePlanet.position.x =
-Math.cos(time)*14;
+const data = planet.userData;
 
-bluePlanet.position.z =
-Math.sin(time)*14;
+const angle =
+time*data.speed + index;
 
-pinkPlanet.position.x =
-Math.cos(time+2)*18;
+planet.position.x =
+Math.cos(angle)*data.distance;
 
-pinkPlanet.position.z =
-Math.sin(time+2)*18;
+planet.position.z =
+Math.sin(angle)*data.distance;
 
-greenPlanet.position.x =
-Math.cos(time+4)*22;
+planet.position.y =
+Math.sin(time+index)*8;
 
-greenPlanet.position.z =
-Math.sin(time+4)*22;
+planet.rotation.y += 0.01;
 
-/* PLANET ROTATION */
+});
 
-bluePlanet.rotation.y += 0.01;
+/* ATMOSPHERE */
 
-pinkPlanet.rotation.y += 0.01;
+dust.rotation.y += 0.00008;
 
-greenPlanet.rotation.y += 0.01;
+stars.rotation.y += 0.00003;
+
+/* CAMERA */
+
+camera.position.x +=
+(mouseX-camera.position.x)*0.02;
+
+camera.position.y +=
+(-mouseY-camera.position.y)*0.02;
+
+camera.lookAt(0,0,0);
 
 renderer.render(scene,camera);
+
 }
 
 animate();
 
-/* RESPONSIVE */
+/* =========================
+   RESIZE
+========================= */
 
 window.addEventListener('resize',()=>{
 
@@ -718,28 +721,8 @@ window.innerHeight
 );
 
 });
+
 </script>
-<div class="music-panel" id="musicPanel">
 
-<div class="album-art"></div>
-
-<div class="song-title" id="songTitle">
-Select Planet
-</div>
-
-<div class="artist" id="artistName">
-MilkyWave Station
-</div>
-
-<div class="equalizer">
-
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-
-</div>
-
-</div>
 </body>
 </html>
